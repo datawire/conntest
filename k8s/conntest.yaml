@@ -1,0 +1,59 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conntest-{{ build.profile.name }}
+  namespace: {{ service.namespace }}
+  labels:
+    app: conntest
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v0
+      kind:  Mapping
+      name:  conntest-{{ build.profile.name }}
+      prefix: /
+      host: {{ build.profile.name }}.kubernaut.io
+      service:  conntest-{{ build.profile.name }}.{{ service.namespace }}
+
+      ---
+      apiVersion: ambassador/v0
+      kind:  Mapping
+      name:  conntest-{{ build.profile.name }}
+      prefix: /ws
+      use_websocket: true
+      host: {{ build.profile.name }}.kubernaut.io
+      service:  conntest-{{ build.profile.name }}.{{ service.namespace }}
+spec:
+  selector:
+    app: conntest-{{ build.profile.name }}
+  type: {{ build.profile.service_type | default("ClusterIP") }}
+  ports:
+    - name: http-api
+      port: 80
+      protocol: TCP
+      targetPort: http-api
+
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: conntest-{{ build.profile.name }}
+  namespace: {{ service.namespace }}
+  labels:
+    app: kubernaut
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: conntest-{{ build.profile.name }}
+    spec:
+      containers:
+        - name: controller
+          image: {{ build.images["Dockerfile"] }}
+          ports:
+            - name: http-api
+              containerPort: 7000
