@@ -37,7 +37,7 @@ fun main(args: Array<String>) {
       .port(7000)
 
   api.get("/") { ctx ->
-    logger.info("request received: ")
+    logger.info("request received: {}", ctx.ip())
     val requestInfo = HttpRequestInfo(
         method        = ctx.method(),
         path          = ctx.path(),

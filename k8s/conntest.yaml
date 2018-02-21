@@ -10,20 +10,20 @@ metadata:
     getambassador.io/config: |
       ---
       apiVersion: ambassador/v0
-      kind:  Mapping
-      name:  conntest-{{ build.profile.name }}
+      kind: Mapping
+      name: conntest-{{ build.profile.name }}
       prefix: /
-      host: {{ build.profile.name }}.kubernaut.io
-      service:  conntest-{{ build.profile.name }}.{{ service.namespace }}
+      host: conntest-{{ build.profile.name }}.kubernaut.io
+      service: conntest-{{ build.profile.name }}.{{ service.namespace }}
 
       ---
       apiVersion: ambassador/v0
-      kind:  Mapping
-      name:  conntest-{{ build.profile.name }}
+      kind: Mapping
+      name: conntest-{{ build.profile.name }}-websocket
       prefix: /ws
       use_websocket: true
-      host: {{ build.profile.name }}.kubernaut.io
-      service:  conntest-{{ build.profile.name }}.{{ service.namespace }}
+      host: conntest-{{ build.profile.name }}.kubernaut.io
+      service: conntest-{{ build.profile.name }}.{{ service.namespace }}
 spec:
   selector:
     app: conntest-{{ build.profile.name }}
@@ -41,7 +41,7 @@ metadata:
   name: conntest-{{ build.profile.name }}
   namespace: {{ service.namespace }}
   labels:
-    app: kubernaut
+    app: conntest-{{ build.profile.name }}
 spec:
   replicas: 3
   strategy:
