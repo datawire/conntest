@@ -71,7 +71,7 @@ fun main(args: Array<String>) {
     }
 
     ws.onClose { session, code, reason ->
-      logger.info("session ended (code={} reason={}): {}", session.id, code, reason)
+      logger.info("session ended (code={} reason={}): {}", code, reason ?: code, session.id)
     }
   }
 

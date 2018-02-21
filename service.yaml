@@ -3,6 +3,13 @@ name: conntest
 namespace: conntest
 replicas: 3
 
+cloud: aws
+cloudConfig:
+  aws:
+    sslCertificateArn: arn:aws:acm:us-east-1:914373874199:certificate/a7124cf8-7719-449a-83d5-2fa3c72ea1f3
+    useProxyProtocol: false
+    listenPort: 443
+
 containers:
   - dockerfile: Dockerfile
     context: .
