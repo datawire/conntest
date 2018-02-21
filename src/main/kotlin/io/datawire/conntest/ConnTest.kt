@@ -10,7 +10,7 @@ import io.javalin.Javalin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-val logger: Logger = LoggerFactory.getLogger("conntest")
+val logger: Logger = LoggerFactory.getLogger("io.datawire.conntest.ConnTest")
 
 val mapper: ObjectMapper = ObjectMapper().registerModules(
     Jdk8Module(),
@@ -55,7 +55,7 @@ fun main(args: Array<String>) {
 
       val sessionInfo = WebSocketSessionInfo(
           id = session.id,
-          queryParams = session.queryParamMap()
+          queryParams = if (session.queryString() != null) session.queryParamMap() else emptyMap()
       )
 
       session.send(jsonify(sessionInfo))

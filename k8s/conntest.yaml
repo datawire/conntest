@@ -21,6 +21,7 @@ metadata:
       kind: Mapping
       name: conntest-{{ build.profile.name }}-websocket
       prefix: /ws
+      rewrite: /ws
       use_websocket: true
       host: conntest-{{ build.profile.name }}.kubernaut.io
       service: conntest-{{ build.profile.name }}.{{ service.namespace }}
@@ -43,7 +44,7 @@ metadata:
   labels:
     app: conntest-{{ build.profile.name }}
 spec:
-  replicas: 3
+  replicas: {{ service.replicas }}
   strategy:
     type: RollingUpdate
   template:
@@ -52,7 +53,7 @@ spec:
         app: conntest-{{ build.profile.name }}
     spec:
       containers:
-        - name: controller
+        - name: conntest
           image: {{ build.images["Dockerfile"] }}
           ports:
             - name: http-api

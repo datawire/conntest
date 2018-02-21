@@ -19,7 +19,7 @@
         <appender-ref ref="ASYNC_STDOUT" />
     </root>
 
-    <logger name="io.datawire" level="INFO" />
+    <logger name="io.datawire" level="DEBUG" />
     <logger name="io.javalin"  level="INFO" />
 
 </configuration>

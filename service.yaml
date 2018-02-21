@@ -1,6 +1,7 @@
 ---
 name: conntest
 namespace: conntest
+replicas: 3
 
 containers:
   - dockerfile: Dockerfile
