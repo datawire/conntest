@@ -3,11 +3,19 @@ name: conntest
 namespace: conntest
 replicas: 3
 
+# comment out this line if using from kubernaut or minkube
 cloud: aws
+
 cloudConfig:
   aws:
+    # Specifies the SSL/TLS certificate to allocate to the ELBv1 "Classic ELB". Comment this out if you do not want
+    # SSL/TLS. If you comment this out then it is recommended you change 'listenPort' below to 80.
     sslCertificateArn: arn:aws:acm:us-east-1:914373874199:certificate/a7124cf8-7719-449a-83d5-2fa3c72ea1f3
+
+    # Whether to use the proxy protocol on ELB.
     useProxyProtocol: false
+
+    # Exposed port on the ELB.
     listenPort: 443
 
 containers:
