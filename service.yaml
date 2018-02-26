@@ -13,7 +13,7 @@ cloudConfig:
     sslCertificateArn: arn:aws:acm:us-east-1:914373874199:certificate/a7124cf8-7719-449a-83d5-2fa3c72ea1f3
 
     # Whether to use the proxy protocol on ELB.
-    useProxyProtocol: false
+    useProxyProtocol: true
 
     # Exposed port on the ELB.
     listenPort: 443

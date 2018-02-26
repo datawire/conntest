@@ -68,7 +68,7 @@ spec:
       serviceAccountName: ambassador
       containers:
       - name: ambassador
-        image: quay.io/datawire/ambassador:0.26.1
+        image: dwflynn/ambassador:0.26.2-b17.b669e6e.DIRTY
         resources:
           limits:
             cpu: 1
@@ -77,6 +77,8 @@ spec:
             cpu: 200m
             memory: 100Mi
         env:
+        - name: SCOUT_DISABLE
+          value: "1"
         - name: AMBASSADOR_NAMESPACE
           valueFrom:
             fieldRef:

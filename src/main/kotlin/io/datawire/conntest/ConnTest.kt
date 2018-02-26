@@ -23,7 +23,10 @@ data class HttpRequestInfo(
     val path: String,
     val queryParams: Map<String, Array<String>>,
     val headers: Map<String, String>,
-    val remoteAddress: String
+    val remoteAddress: String,
+    val remotePort: Int,
+    val remoteHost: String?,
+    val remoteUser: String?
 )
 
 data class WebSocketSessionInfo(
@@ -43,7 +46,10 @@ fun main(args: Array<String>) {
         path          = ctx.path(),
         queryParams   = ctx.queryParamMap(),
         headers       = ctx.headerMap(),
-        remoteAddress = ctx.ip()
+        remoteAddress = ctx.request().remoteAddr,
+        remotePort    = ctx.request().remotePort,
+        remoteHost    = ctx.request().remoteHost,
+        remoteUser    = ctx.request().remoteUser
     )
 
     ctx.status(200).contentType("application/json").result(jsonify(requestInfo))
