@@ -37,7 +37,7 @@ data class WebSocketSessionInfo(
 fun main(args: Array<String>) {
   val api = Javalin
       .create()
-      .port(7000)
+      .port(System.getenv("SRV_PORT")?.toIntOrNull() ?: 7000)
 
   api.get("/") { ctx ->
     logger.info("request received: {}", ctx.ip())
