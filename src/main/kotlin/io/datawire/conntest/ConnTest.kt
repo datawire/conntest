@@ -29,12 +29,24 @@ data class HttpRequestInfo(
     val remoteUser: String?
 )
 
+data class HttpInfo(
+    val host: String,
+    val request: HttpRequestInfo
+)
+
 data class WebSocketSessionInfo(
     val id: String,
     val queryParams: Map<String, Array<String>>
 )
 
+data class WebSocketInfo(
+    val host: String,
+    val session: WebSocketSessionInfo
+)
+
 fun main(args: Array<String>) {
+  val hostname = System.getenv("HOSTNAME")
+
   val api = Javalin
       .create()
       .port(System.getenv("SRV_PORT")?.toIntOrNull() ?: 7000)
@@ -52,7 +64,12 @@ fun main(args: Array<String>) {
         remoteUser    = ctx.request().remoteUser
     )
 
-    ctx.status(200).contentType("application/json").result(jsonify(requestInfo))
+    val info = HttpInfo(
+        host = hostname,
+        request = requestInfo
+    )
+
+    ctx.status(200).contentType("application/json").result(jsonify(info))
   }
 
   api.ws("/ws") { ws ->
@@ -62,6 +79,11 @@ fun main(args: Array<String>) {
       val sessionInfo = WebSocketSessionInfo(
           id = session.id,
           queryParams = if (session.queryString() != null) session.queryParamMap() else emptyMap()
+      )
+
+      val info = WebSocketInfo(
+          host = hostname,
+          session = sessionInfo
       )
 
       session.send(jsonify(sessionInfo))
